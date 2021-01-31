@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   iconRoot: {
     textAlign: "center",
   },
+  cartButton: {
+    display: "block",
+    width: "75%",
+  },
 }));
 
 const ProductScreen = ({ history, match }) => {
@@ -110,12 +114,14 @@ const ProductScreen = ({ history, match }) => {
         <>
           <Grid
             container
+            alignItems="center"
+            alignContent="center"
             justify="space-between"
             spacing={isMd ? 4 : 2}
             className={classes.listGrid}
           >
             <Grid item xs={12} md={6} data-aos={"fade-up"}>
-              <Grid container spacing={2} alignItems="flex-start">
+              <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12}>
                   <SectionHeader
                     title={product.name}
@@ -186,6 +192,7 @@ const ProductScreen = ({ history, match }) => {
                     <Grid item xs={12} md={6}>
                       <Button
                         size="small"
+                        className={classes.cartButton}
                         variant="contained"
                         type="submit"
                         color="primary"
@@ -208,144 +215,6 @@ const ProductScreen = ({ history, match }) => {
               </Grid>
             </Grid>
           </Grid>
-          {/* <Row>
-          <Button
-                    onClick={addToCartHandler}
-                    className="btn-block"
-                    type="button"
-                    disabled={product.countInStock === 0}
-                  >
-                    Add To Cart
-                  </Button>
-
-            <div
-              style={{
-                display: "flex",
-                marginRight: "-15px",
-                marginLeft: "15px",
-                marginBottom: "30px",
-              }}
-            >
-              <Link
-                style={{
-                  color: "white",
-                  backgroundColor: "#26A541",
-                  margingBottom: "5rem",
-                }}
-                className="btn"
-                to="/home"
-              >
-                <b>
-                  <div style={{ fontSize: "0.85rem" }}>Go to Supermarket</div>
-                </b>
-              </Link>
-            </div>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
-            </Col>
-            <Col md={3}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Price:{" "}
-                  <span style={{ position: "absolute", right: "5px" }}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      version="1.1"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#000000"
-                        d="M8,3H18L17,5H13.74C14.22,5.58 14.58,6.26 14.79,7H18L17,9H15C14.75,11.57 12.74,13.63 10.2,13.96V14H9.5L15.5,21H13L7,14V12H9.5V12C11.26,12 12.72,10.7 12.96,9H7L8,7H12.66C12.1,5.82 10.9,5 9.5,5H7L8,3Z"
-                      />
-                    </svg>
-
-                    {product.price}
-                  </span>{" "}
-                  {product.price}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={3}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <Col>Price:</Col>
-                  <Col>
-                    <strong>
-                      <span style={{ position: "absolute", right: "5px" }}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          version="1.1"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="#000000"
-                            d="M8,3H18L17,5H13.74C14.22,5.58 14.58,6.26 14.79,7H18L17,9H15C14.75,11.57 12.74,13.63 10.2,13.96V14H9.5L15.5,21H13L7,14V12H9.5V12C11.26,12 12.72,10.7 12.96,9H7L8,7H12.66C12.1,5.82 10.9,5 9.5,5H7L8,3Z"
-                          />
-                        </svg>
-                      </span>{" "}
-                      {product.price}
-                    </strong>
-                  </Col>
-                </ListGroup.Item>
-
-                <ListGroup.Item>
-                  <Col>Status:</Col>
-                  <Col>
-                    {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-                  </Col>
-                </ListGroup.Item>
-
-                {product.countInStock > 0 && (
-                  <ListGroup.Item>
-                    <Col>Qty</Col>
-                    <Col>
-                      <Form.Control
-                        as="select"
-                        value={qty}
-                        onChange={(e) => setQty(e.target.value)}
-                      >
-                        {[...Array(product.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </Form.Control>
-                    </Col>
-                  </ListGroup.Item>
-                )}
-
-                <ListGroup.Item>
-                  <Button
-                    onClick={addToCartHandler}
-                    className="btn-block"
-                    type="button"
-                    disabled={product.countInStock === 0}
-                  >
-                    Add To Cart
-                  </Button>
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-          </Row>
-          */}
         </>
       )}
     </>

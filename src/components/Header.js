@@ -106,7 +106,7 @@ export default function Header(props) {
                 </b>
               </span>
             </Link>
-
+            {/* IMPLEMENT GRID HERE TO ENSURE THE ELEMENBTS ARE PLACED ALIGNED CENTER AND HAVING SPACE IN BETWEEN -KSP */}
             <div style={{ marginLeft: "5em" }}>
               <ZipCodeTracker />
             </div>
