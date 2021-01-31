@@ -3,8 +3,36 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { saveShippingAddress } from "../actions/cartAction";
 import { Link } from "react-router-dom";
+import {
+  useMediaQuery,
+  Grid,
+  Typography,
+  Button,
+  Select,
+  IconButton,
+  Paper,
+} from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { addToCart, removeFromCart } from "../actions/cartAction";
+import rupeeSvgIcon from "../assets/images/currency-inr.svg";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    height: "80vh",
+    width: "80vh",
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 
 const ShippingScreen = ({ history }) => {
+  const [spacing, setSpacing] = React.useState(2);
+  const classes = useStyles();
+
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -24,73 +52,31 @@ const ShippingScreen = ({ history }) => {
   return (
     <>
       <CheckoutSteps step1 step2 />
-      <h1>Shipping</h1>
-      {/* <Row>
+      <Typography variant="subtitle1" gutterBottom>
+        Shopping Cart
         <Link
           style={{
             color: "white",
             backgroundColor: "#26A541",
-            marginLeft: "1rem",
-            marginBottom: "1rem",
+            marginLeft: "10rem",
           }}
           className="btn"
           to="/home"
+          align="right"
         >
-          <b>
-            <div style={{ fontSize: "0.85rem" }}>Go to Supermarket</div>
-          </b>
+          Go to Supermarket
         </Link>
-      </Row>
-      <Form onSubmit={submitHandler}>
-       
-        <Form.Group>
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter address"
-            value={address}
-            required
-            onChange={(e) => setAddress(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+      </Typography>
 
-        <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter city"
-            value={city}
-            required
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter postal code"
-            value={postalCode}
-            required
-            onChange={(e) => setPostalCode(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter country"
-            value={country}
-            required
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Button type="submit" variant="primary">
-          Continue
-        </Button>
-      </Form> */}
+      <Grid container className={classes.root} spacing={2}>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={spacing}>
+            <Grid item>
+              <Paper className={classes.paper} />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

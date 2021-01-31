@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
 export default function CartLayoutScreen({ match, location, history }) {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
+
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
   const productId = match.params.id;
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
-
-  const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
