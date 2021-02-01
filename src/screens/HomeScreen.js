@@ -68,25 +68,6 @@ const HomeScreen = ({ match }) => {
           <Grid container spacing={isMd ? 4 : 2}>
             {products.map((item, index) => (
               <Grid item xs={12} sm={6} md={3} key={index} data-aos="fade-up">
-                {/* <Card>
-                  <CardMedia className={classes.cardMedia}>
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      className={classes.image}
-                    />
-                  </CardMedia>
-                  <CardContent>
-                    <Typography
-                      color="textPrimary"
-                      variant="subtitle1"
-                      className={classes.fontWeightBold}
-                      align="center"
-                    >
-                      {item.name}
-                    </Typography>
-                  </CardContent>
-                </Card> */}
                 <Product product={item} />
               </Grid>
             ))}

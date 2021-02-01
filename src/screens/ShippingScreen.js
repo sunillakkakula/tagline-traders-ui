@@ -43,7 +43,9 @@ const ShippingScreen = ({ history }) => {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
   const theme = useTheme();
-
+  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
+    defaultMatches: true,
+  });
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
 
@@ -56,9 +58,6 @@ const ShippingScreen = ({ history }) => {
     values: {},
     touched: {},
     errors: {},
-  });
-  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
-    defaultMatches: true,
   });
 
   const dispatch = useDispatch();
@@ -82,10 +81,10 @@ const ShippingScreen = ({ history }) => {
               <Paper className={classes.paper}>
                 <form className={classes.container} onSubmit={submitHandler}>
                   <Grid container className={classes.root} spacing={2}>
-                    <Grid item xs={6} alignContent="flex-start">
+                    <Grid item xs={6}>
                       <FormLabel component="legend">Shipping Details</FormLabel>
                     </Grid>
-                    <Grid item xs={6} alignContent="flex-end">
+                    <Grid item xs={6}>
                       <Link
                         style={{
                           color: "white",

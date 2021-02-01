@@ -3,24 +3,44 @@ import Rating from "../components/Rating";
 import BulkLooseRadioGroup from "../components/controls/BulkLooseRadioGroup";
 
 import { RupeeIcon } from "../components/controls/RupeeIcon";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, ButtonGroup } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Button, ButtonGroup, Grid, Icon, Paper } from "@material-ui/core";
+import rupeeSvgIcon from "../assets/images/currency-inr.svg";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Image from "../components/atoms/Image/Image";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    justifyContent: "center",
+  },
+  imageIcon: {
+    height: "100%",
   },
   paper: {
+    height: "100%",
+    width: "150vh",
+    padding: ".5rem",
+  },
+  control: {
     padding: theme.spacing(2),
+  },
+  link: {
+    color: "white",
+    backgroundColor: "#26A541",
+  },
+  iconRoot: {
     textAlign: "center",
-    marginBottom: "1.5em",
   },
 }));
 
 const ProductDetailsScreen = (prd) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { product } = prd;
   let [qty, setQty] = useState(1);
-  let [counter, setCounter] = useState(0);
+  const classes = useStyles();
+  let [counter, setCounter] = useState(1);
   let [orderTypeSelected, setOrderTypeSelected] = useState("loose");
   let [isBulkOrder, setIsBulkOrder] = useState(false);
   useEffect(() => {
@@ -41,6 +61,7 @@ const ProductDetailsScreen = (prd) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log("Clicked Submit Handler");
   };
 
   const renderQtyUI = ({ isBulkOrder, qty }) => {};
@@ -67,73 +88,44 @@ const ProductDetailsScreen = (prd) => {
 
   return (
     <>
-      <BulkLooseRadioGroup parentCB={currentCBHandler} />
-      {/* <Row>
-        <Col md={3}>
-          <Image src={product.image} alt={product.name} fluid />
-        </Col>
-        <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
+      <Paper>
+        <BulkLooseRadioGroup parentCB={currentCBHandler} />
+        <Grid container>
+          <Grid item xs={3}>
+            <Image
+              src={product.image}
+              alt={product.name}
+              width="3.5rem"
+              height="3.5rem"
+              className={classes.image}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Grid item>
               <h3>{product.name}</h3>
-            </ListGroup.Item>
-            <ListGroup.Item>
+            </Grid>
+            <Grid item>
               <Rating
                 value={product.rating}
                 text={`${product.numReviews} reviews`}
               />
-            </ListGroup.Item>
-            <ListGroup.Item>
+            </Grid>
+            <Grid item>
               Price:{" "}
               <span style={{ position: "absolute", right: "5px" }}>
-                <RupeeIcon />
+                <Icon classes={{ root: classes.iconRoot }}>
+                  <img alt="curency inr" src={rupeeSvgIcon} />
+                </Icon>
               </span>
               {product.price}
-            </ListGroup.Item>
-            <ListGroup.Item>Description: {product.description}</ListGroup.Item>
-          </ListGroup>
-        </Col>
-        <Col md={6}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <Col>Price:</Col>
-              <Col>
-                <strong>
-                  <span style={{ position: "absolute", right: "5px" }}>
-                    <RupeeIcon />
-                  </span>{" "}
-                  {product.price}
-                </strong>
-              </Col>
-            </ListGroup.Item>
-
-            <ListGroup.Item>
-              <Col>Status:</Col>
-              <Col>
-                {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-              </Col>
-            </ListGroup.Item>
-
-            {product.countInStock > 0 && (
-              <ListGroup.Item>
-                <Col>Qty</Col>
-                <Col>{renderQtyUI(isBulkOrder, qty)}</Col>
-              </ListGroup.Item>
-            )}
-            <ListGroup.Item>
-              <Button
-                onClick={addToCartHandler}
-                className="btn-block"
-                type="button"
-                disabled={product.countInStock === 0}
-              >
-                Add To Cart
-              </Button>
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-      </Row>
-             */}
+            </Grid>
+            <Grid item>Description: {product.description}</Grid>
+          </Grid>
+          <Grid item xs={6}>
+            
+          </Grid>
+        </Grid>
+      </Paper>
     </>
   );
 };

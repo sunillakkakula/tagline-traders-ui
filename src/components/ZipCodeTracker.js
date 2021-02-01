@@ -42,19 +42,14 @@ const ZipCodeTracker = () => {
   };
   return (
     <div className="flex">
-      <IconButton
-        style={{ color: "white", backgroundColor: "primary" }}
+      <RoomOutlinedIcon
         onClick={() => {
           getCurrentLocationZipCode();
         }}
-      >
-        <RoomOutlinedIcon />
-        <b>
-          <div id="zip_code" style={{ fontSize: "0.85rem" }}>
-            Search city
-          </div>
-        </b>
-      </IconButton>
+      />
+      <div id="zip_code" style={{ fontSize: "0.85rem" }}>
+        Search city
+      </div>
     </div>
   );
 };

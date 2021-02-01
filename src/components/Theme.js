@@ -85,6 +85,16 @@ export default createMuiTheme({
     },
   },
   overrides: {
+    MuiRadio: {
+      root: {
+        color: "green",
+      },
+      colorSecondary: {
+        "&$checked": {
+          color: "green",
+        },
+      },
+    },
     MuiInputLabel: {
       root: {
         color: nlGreen,

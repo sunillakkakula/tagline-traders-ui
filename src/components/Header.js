@@ -27,12 +27,44 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
+
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
 }));
 function ElevationScroll(props) {
   const { children } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -93,7 +125,6 @@ export default function Header(props) {
                   height: "3.5rem",
                   width: "3.5rem",
                   marginRight: "5em",
-                  marginLeft: "5em",
                 }}
               />
             </div>
@@ -106,12 +137,13 @@ export default function Header(props) {
                 </b>
               </span>
             </Link>
+            <div className={classes.grow} />
             {/* IMPLEMENT GRID HERE TO ENSURE THE ELEMENBTS ARE PLACED ALIGNED CENTER AND HAVING SPACE IN BETWEEN -KSP */}
             <div style={{ marginLeft: "5em" }}>
               <ZipCodeTracker />
             </div>
             <Link to="/cart">
-              <ShoppingCartIcon count="10" style={{ marginTop: "2.0em" }} />
+              <ShoppingCartIcon count="10" />
             </Link>
             {userInfo ? (
               <>
