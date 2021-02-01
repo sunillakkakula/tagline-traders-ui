@@ -1,19 +1,48 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartAction";
 import { Link } from "react-router-dom";
+import {
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Paper,
+  Radio,
+  RadioGroup,
+  Button,
+} from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+// import Button from "../components/controls/Button";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  paper: {
+    height: "100%",
+    width: "100vh",
+    padding: "2rem",
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
 
 const PaymentScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
+  const classes = useStyles();
   const { shippingAddress } = cart;
 
   if (!shippingAddress.address) {
     history.push("/shipping");
   }
+  const handleChange = (event) => {
+    setPaymentMethod(event.target.value);
+  };
 
-  const [paymentMethod, setPaymentMethod] = useState("GPay");
+  const [paymentMethod, setPaymentMethod] = useState("gpay");
 
   const dispatch = useDispatch();
 
@@ -26,52 +55,62 @@ const PaymentScreen = ({ history }) => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
-      {/* <Row>
-        <Link
-          style={{
-            color: "white",
-            backgroundColor: "#26A541",
-            marginLeft: "1rem",
-            marginBottom: "1rem",
-          }}
-          className="btn"
-          to="/home"
-        >
-          <b>
-            <div style={{ fontSize: "0.85rem" }}>Go to Supermarket</div>
-          </b>
-        </Link>
-      </Row>
-      <h1>Payment Method</h1>
-
-      <Form onSubmit={submitHandler}>
-        <Form.Group>
-          <Form.Label as="legend">Select Method</Form.Label>
-          <Col>
-            <Form.Check
-              type="radio"
-              label="GPay"
-              id="GPay"
-              name="paymentMethod"
-              value="GPay"
-              checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-            <Form.Check
-              type="radio"
-              label="UPI"
-              id="UPI"
-              name="paymentMethod"
-              value="UPI"
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
-          </Col>
-        </Form.Group>
-
-        <Button type="submit" variant="primary">
-          Continue
-        </Button>
-      </Form> */}
+      <Grid container className={classes.root} spacing={2}>
+        <Grid item xs={12} container justify="center">
+          <Paper className={classes.paper}>
+            <form onSubmit={submitHandler}>
+              <Grid container className={classes.root} spacing={1}>
+                <Grid item xs={6}>
+                  <FormLabel component="legend">Payment Details</FormLabel>
+                </Grid>
+                <Grid item xs={6}>
+                  <Link
+                    style={{
+                      color: "white",
+                      backgroundColor: "#26A541",
+                      // marginLeft: "10rem",
+                    }}
+                    className="btn"
+                    align="right"
+                    to="/home"
+                  >
+                    Go to Supermarket
+                  </Link>
+                </Grid>
+              </Grid>
+              <Grid item xs={12} container>
+                <RadioGroup
+                  aria-label="payment"
+                  name="payment"
+                  value={paymentMethod}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="gpay"
+                    control={<Radio />}
+                    label="G-Pay"
+                  />
+                  <FormControlLabel
+                    value="upi"
+                    control={<Radio />}
+                    label="UPI payment"
+                  />
+                </RadioGroup>
+              </Grid>
+              <Grid item xs={12} container justify="center">
+                <Button
+                  size="small"
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                >
+                  Continue
+                </Button>
+              </Grid>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
     </>
   );
 };

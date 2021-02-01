@@ -80,11 +80,6 @@ const DashboardGrid = () => {
                 </Paper>
               </Paper>
             </Grid>
-            {/* {[0, 1].map((value) => (
-              <Grid key={value} item>
-                <Paper className={classes.paper} />
-              </Grid>
-            ))} */}
           </Grid>
         </Grid>
       </Grid>
