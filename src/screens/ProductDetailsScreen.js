@@ -4,7 +4,15 @@ import BulkLooseRadioGroup from "../components/controls/BulkLooseRadioGroup";
 
 import { RupeeIcon } from "../components/controls/RupeeIcon";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Button, ButtonGroup, Grid, Icon, Paper } from "@material-ui/core";
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  Icon,
+  MenuItem,
+  Paper,
+  Select,
+} from "@material-ui/core";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Image from "../components/atoms/Image/Image";
@@ -42,11 +50,12 @@ const ProductDetailsScreen = (prd) => {
   const classes = useStyles();
   let [counter, setCounter] = useState(1);
   let [orderTypeSelected, setOrderTypeSelected] = useState("loose");
-  let [isBulkOrder, setIsBulkOrder] = useState(false);
+  let [isBulkOrder, setBulkOrder] = useState(false);
   useEffect(() => {
     console.log("Exec Use Effect as order Type is Chnaged");
     setOrderTypeSelected(orderTypeSelected);
-  }, [orderTypeSelected]);
+    setBulkOrder(true);
+  }, []);
   const handleIncrement = () => {
     setCounter(counter + 1);
   };
@@ -64,7 +73,33 @@ const ProductDetailsScreen = (prd) => {
     console.log("Clicked Submit Handler");
   };
 
-  const renderQtyUI = ({ isBulkOrder, qty }) => {};
+  const renderQtyUI = ({ isBulkOrder, qty }) => {
+    if (orderTypeSelected === "b") {
+      console.log(" IS BULK ORDER so return UI for that" + orderTypeSelected);
+
+      return;
+      <Select value={qty} onChange={(e) => setQty(e.target.value)}>
+        {[...Array(product.countInStock).keys()].map((x) => (
+          <MenuItem key={x + 1} value={x + 1}>
+            {x + 1}
+          </MenuItem>
+        ))}
+      </Select>;
+    } else {
+      console.log(" IS LOOSE ORDER so return UI for that" + orderTypeSelected);
+      return (
+        <ButtonGroup
+          style={{ size: "small" }}
+          className="small outlined button group"
+          aria-label="small outlined button group"
+        >
+          {<Button onClick={handleDecrement}>-</Button>}
+          {<Button disabled>{counter}</Button>}
+          <Button onClick={handleIncrement}>+</Button>
+        </ButtonGroup>
+      );
+    }
+  };
 
   const currentCBHandler = (orderTypeValue) => {
     // console.log("Order Type Selected :" + orderTypeValue);
@@ -77,7 +112,7 @@ const ProductDetailsScreen = (prd) => {
         orderTypeSelected
     );
 
-    setIsBulkOrder(orderTypeValue === "bulk" ? true : false);
+    setBulkOrder(orderTypeValue === "bulk" ? true : false);
     console.log(
       "is Order Type Bulk ? " +
         isBulkOrder +
@@ -122,7 +157,11 @@ const ProductDetailsScreen = (prd) => {
             <Grid item>Description: {product.description}</Grid>
           </Grid>
           <Grid item xs={6}>
-            
+            <Grid container>
+              <Grid item xs={12}>
+                {renderQtyUI(isBulkOrder)}
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Paper>

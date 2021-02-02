@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
+  ButtonGroup,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Icon,
+  MenuItem,
   Paper,
+  Select,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import AddProductForm from "./AddProductForm";
@@ -34,6 +37,7 @@ const Product = ({ history, match, product }) => {
   const [qty, setQty] = useState(1);
   const theme = useTheme();
   const [counter, setCounter] = useState(1);
+
   // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("md");
@@ -69,11 +73,8 @@ const Product = ({ history, match, product }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   let [orderTypeSelected, setOrderTypeSelected] = useState("loose");
-  let [isBulkOrder, setIsBulkOrder] = useState(false);
-  useEffect(() => {
-    console.log("Exec Use Effect as order Type is Chnaged");
-    setOrderTypeSelected(orderTypeSelected);
-  }, [orderTypeSelected]);
+  let [orderType, setOrderType] = useState("loose");
+  let [orderTypeResultUI, setOrderTypeResultUI] = useState("");
   const handleIncrement = () => {
     setCounter(counter + 1);
   };
@@ -81,20 +82,71 @@ const Product = ({ history, match, product }) => {
   const handleDecrement = () => {
     setCounter(counter - 1);
   };
+  const bulkUI = (
+    <Select value={qty} onChange={(e) => setQty(e.target.value)}>
+      {[...Array(product.countInStock).keys()].map((x) => (
+        <MenuItem key={x + 1} value={x + 1}>
+          {x + 1}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+  const looseUI = (
+    <ButtonGroup
+      style={{ size: "small" }}
+      className="small outlined button group"
+      aria-label="small outlined button group"
+    >
+      {<Button onClick={handleDecrement}>-</Button>}
+      {<Button disabled>{counter}</Button>}
+      <Button onClick={handleIncrement}>+</Button>
+    </ButtonGroup>
+  );
+
+  const renderQtyUI = ({ orderType }) => {
+    console.log(
+      "Exec renderQtyUI ... : orderType :--> " +
+        orderType +
+        " , orderTypeSelected :==> " +
+        orderTypeSelected
+    );
+    if (orderTypeSelected.startsWith("b")) {
+      console.log(" IS BULK ORDER so return UI for that" + orderTypeSelected);
+
+      return;
+      <Select value={qty} onChange={(e) => setQty(e.target.value)}>
+        {[...Array(product.countInStock).keys()].map((x) => (
+          <MenuItem key={x + 1} value={x + 1}>
+            {x + 1}
+          </MenuItem>
+        ))}
+      </Select>;
+    } else {
+      console.log(" IS LOOSE ORDER so return UI for that" + orderTypeSelected);
+      return (
+        <ButtonGroup
+          style={{ size: "small" }}
+          className="small outlined button group"
+          aria-label="small outlined button group"
+        >
+          {<Button onClick={handleDecrement}>-</Button>}
+          {<Button disabled>{counter}</Button>}
+          <Button onClick={handleIncrement}>+</Button>
+        </ButtonGroup>
+      );
+    }
+  };
+  useEffect(() => {
+    console.log("Exec Use Effect as order Type is Chnaged from Product Screen");
+    // setOrderTypeSelected(orderTypeSelected);
+    // setOrderTypeResultUI(renderQtyUI(orderTypeSelected));
+  }, [orderTypeSelected, orderTypeResultUI]);
 
   const addToCartHandler = () => {
-    // history.push(`/cart/${prd._id}?qty=${prd.qty}`);
+    history.push(`/cart/${product._id}?qty=${product.qty}`);
   };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    console.log("Clicked Submit Handler");
-  };
-
-  const renderQtyUI = ({ isBulkOrder, qty }) => {};
 
   const currentCBHandler = (orderTypeValue) => {
-    // console.log("Order Type Selected :" + orderTypeValue);
     orderTypeSelected = orderTypeValue;
     setOrderTypeSelected(...orderTypeSelected, orderTypeSelected);
     console.log(
@@ -104,10 +156,10 @@ const Product = ({ history, match, product }) => {
         orderTypeSelected
     );
 
-    setIsBulkOrder(orderTypeValue === "bulk" ? true : false);
+    setOrderType(orderTypeValue);
     console.log(
       "is Order Type Bulk ? " +
-        isBulkOrder +
+        orderType +
         ", orderTypeValue: " +
         orderTypeValue
     );
@@ -195,14 +247,12 @@ const Product = ({ history, match, product }) => {
           fullWidth={fullWidth}
           maxWidth={maxWidth}
           aria-labelledby="customized-dialog-title"
-          // fullScreen={fullScreen}
           open={open}
         >
           <DialogTitle id="customized-dialog-title" onClose={handleClose}>
             Order Type
           </DialogTitle>
           <DialogContent dividers>
-            {/* <BulkLooseRadioGroup parentCB={currentCBHandler} /> */}
             <Grid container>
               <Grid item xs={3}>
                 <Image
@@ -233,48 +283,32 @@ const Product = ({ history, match, product }) => {
                   <Grid item xs={6}>
                     <BulkLooseRadioGroup parentCB={currentCBHandler} />
                   </Grid>
-                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    {/* {} {orderTypeResultUI} */}
+                    {console.log(
+                      "orderTypeSelected BEFORE RENDERING: " + orderTypeSelected
+                    )}
+                    {orderTypeSelected.startsWith("l") ? (
+                      <h3>{looseUI}</h3>
+                    ) : (
+                      <h3>{bulkUI}</h3>
+                    )}
+                  </Grid>
                 </Grid>
                 {/* <BulkLooseRadioGroup parentCB={currentCBHandler} /> */}
               </Grid>
             </Grid>
-            {/* <ProductDetailsScreen product={product}></ProductDetailsScreen> */}
-            {/* <Paper className={classes.paper}>
-            <Paper>
-              <Grid container>
-                <Grid item xs={3}>
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width="3.5rem"
-                    height="3.5rem"
-                    className={classes.image}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <Grid item>
-                    <h3>{product.name}</h3>
-                  </Grid>
-                
-                  </Grid>
-                  <Grid item>
-                    Price:{" "}
-                    <span style={{ position: "absolute", right: "5px" }}>
-                      <Icon classes={{ root: classes.iconRoot }}>
-                        <img alt="curency inr" src={rupeeSvgIcon} />
-                      </Icon>
-                    </span>
-                    {product.price}
-                  </Grid>
-                  <Grid item>Description: {product.description}</Grid>
-                </Grid>
-                <Grid item xs={6}></Grid>
-              </Grid>
-              </Paper>*/}
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={handleClose} color="primary">
-              Save changes
+            <Button
+              autoFocus
+              onClick={handleClose}
+              size="small"
+              variant="contained"
+              type="submit"
+              color="primary"
+            >
+              Add to Cart
             </Button>
           </DialogActions>
         </Dialog>

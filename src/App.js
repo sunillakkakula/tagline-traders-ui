@@ -22,6 +22,7 @@ import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 // import SubMenuHeader from "./components/SubMenuHeader";
 import DashboardScreen from "./screens/DashboardScreen";
+import MuiHeader from "./components/MuiHeader";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -29,8 +30,8 @@ function App() {
         {/* NEED TO APPLY MARGIN  TO APP BAR REFER MUI C...
             AND COMMENT THE BELOW LIKE AFTER MAKING CHANGES  -KSP
         */}
-        <CategoriesSubMenu />
-        <Header />
+        {/* <CategoriesSubMenu /> */}
+        <MuiHeader />
         {/* <SubMenuHeader /> */}
         <CategoriesSubMenu />
         <main className="py-3">

@@ -7,8 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import { Container, Link } from "@material-ui/core";
-
+import { Container, Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { logout } from "../actions/userAction";
 import ZipCodeTracker from "./ZipCodeTracker";
@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+  },
+  appTitle: {
+    fontSize: "1.75rem",
   },
 
   sectionDesktop: {
@@ -84,7 +87,7 @@ ElevationScroll.propTypes = {
   window: PropTypes.func,
 };
 
-export default function Header(props) {
+export default function Header({ props }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -129,7 +132,7 @@ export default function Header(props) {
               />
             </div>
             <Link to="/">
-              <span style={{ fontSize: "1.75rem" }}>
+              <span className={classes.appTitle}>
                 <b>
                   <i>
                     <h5>Tagline Traders</h5>
@@ -139,7 +142,56 @@ export default function Header(props) {
             </Link>
             <div className={classes.grow} />
             {/* IMPLEMENT GRID HERE TO ENSURE THE ELEMENBTS ARE PLACED ALIGNED CENTER AND HAVING SPACE IN BETWEEN -KSP */}
-            <div style={{ marginLeft: "5em" }}>
+            <Grid container fluid>
+              <Grid item xs={3}>
+                {" "}
+                <ZipCodeTracker />
+              </Grid>
+              <Grid item xs={3}>
+                {" "}
+                <Link to="/cart">
+                  <ShoppingCartIcon count="10" />
+                </Link>
+              </Grid>
+              <Grid item xs={3}>
+                {userInfo ? (
+                  <>
+                    <Link to="/profile">
+                      <div>{userInfo.name}</div>
+                    </Link>
+                    <Link to="/logout">
+                      <div
+                        onClick={logoutHandler}
+                        style={{ marginLeft: "1.5em" }}
+                      >
+                        Logout
+                      </div>
+                    </Link>
+                  </>
+                ) : (
+                  <div
+                  // style={{
+                  //   marginLeft: "3em",
+                  //   display: "flex",
+                  //   alignItems: "right",
+                  //   cursor: "pointer",
+                  //   paddingRight: "0px",
+                  // }}
+                  >
+                    <Link to="/login">
+                      <i className="fas fa-user" />
+                    </Link>
+                  </div>
+                )}
+              </Grid>
+              <Grid item xs={3}>
+                {" "}
+                <Link to="/login">
+                  <i className="fas fa-user" />
+                </Link>
+              </Grid>
+            </Grid>
+            {/* <div style={{ marginLeft: "5em" }}>
               <ZipCodeTracker />
             </div>
             <Link to="/cart">
@@ -170,7 +222,7 @@ export default function Header(props) {
                   <i className="fas fa-user" />
                 </Link>
               </div>
-            )}
+            )} */}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
