@@ -112,7 +112,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
-      <CheckoutSteps step1 step2 step3 />
+      {/* <CheckoutSteps step1 step2 step3 /> */}
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={8} container justify="center">
           <Paper className={classes.paper}>
@@ -139,25 +139,38 @@ const PlaceOrderScreen = ({ history }) => {
                 <Grid item xs={2} container justify="flex-start">
                   Shipping Details
                 </Grid>
-                <Grid item xs={10} container justify="center">
-                  <p>
-                    <strong>Address:</strong>
-                    {cart.shippingAddress.address}, {cart.shippingAddress.city}{" "}
-                    {cart.shippingAddress.postalCode},{" "}
-                    {cart.shippingAddress.country}
-                  </p>
+                <Grid item xs={10}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      {""}
+                      {cart.shippingAddress.address}
+                    </Grid>
+                    <Grid item xs={12}>
+                      {cart.shippingAddress.city}
+                    </Grid>
+                    <Grid item xs={12}>
+                      {cart.shippingAddress.postalCode}
+                    </Grid>
+                    <Grid item xs={12}>
+                      {cart.shippingAddress.country}
+                    </Grid>
+                  </Grid>
+
+                  {/* {cart.shippingAddress.city}
+                  {cart.shippingAddress.postalCode}
+                  {cart.shippingAddress.country} */}
                 </Grid>
               </Grid>
               <Divider />
-              <Grid item container justify="center">
-                <Grid item xs={2} container justify="flex-start">
+              <Grid item container>
+                {/* <Grid item xs={2} container justify="flex-start">
                   Item Details
-                </Grid>
-                <Grid item xs={10} container justify="space-between">
+                </Grid> */}
+                <Grid item xs={12} container>
                   {cart.cartItems.length === 0 ? (
                     <Message>Your cart is empty</Message>
                   ) : (
-                    <Grid>
+                    <Grid conatiner row>
                       {cart.cartItems.map((item, index) => (
                         <Grid item key={index}>
                           <Grid container>
@@ -169,22 +182,30 @@ const PlaceOrderScreen = ({ history }) => {
                                 style={{
                                   height: "3.5rem",
                                   width: "3.5rem",
+                                  // justify: "flex-start",
+                                  marginRight: "5rem",
                                 }}
                               />
                             </Grid>
                             <Grid item xs={3}>
-                              <Link to={`/product/${item.product}`}>
+                              <Link
+                                to={`/product/${item.product}`}
+                                style={{
+                                  justify: "center",
+                                  marginRight: "5rem",
+                                }}
+                              >
                                 {item.name}
                               </Link>
                             </Grid>
                             <Grid item xs={3}>
-                              {item.qty} x {item.price}
+                              {item.qty} x{" "}
                               <Icon classes={{ root: classes.iconRoot }}>
                                 <img alt="curency inr" src={rupeeSvgIcon} />
                               </Icon>
-                              =
+                              {item.price}=
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={3} align="right">
                               <Icon classes={{ root: classes.iconRoot }}>
                                 <img
                                   alt="curency inr"
@@ -195,6 +216,7 @@ const PlaceOrderScreen = ({ history }) => {
                               {item.qty * item.price}
                             </Grid>
                           </Grid>
+                          <Divider />
                         </Grid>
                       ))}
                     </Grid>
@@ -207,55 +229,83 @@ const PlaceOrderScreen = ({ history }) => {
         <Grid item xs={4} container justify="center">
           <Paper className={classes.paper}>
             {/* <form onSubmit={placeOrderHandler}> */}
-            <Grid container className={classes.root} spacing={1}>
-              <Grid item xs={6}>
-                <FormLabel component="legend"> Order Summary</FormLabel>
+            <FormLabel component="legend"> Order Summary</FormLabel>
+            <Divider />
+            <Grid
+              container
+              spacing={1}
+              row
+              justifyContent="center"
+              justify="center"
+            >
+              <Grid item xs={12} justifyContent="center" justify="center">
                 <Grid container>
-                  <Grid item>
-                    Items
+                  <Grid item xs={6}>
+                    Items Cost
+                  </Grid>
+                  <Grid item xs={6}>
                     <Icon classes={{ root: classes.iconRoot }}>
                       <img alt="curency inr" src={rupeeSvgIcon} />
                     </Icon>
                     {cart.itemsPrice}
                   </Grid>
-                  <Divider />
-                  <Grid item>
-                    Shipping
+                </Grid>
+              </Grid>
+              <Divider />
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={6}>
+                    Shipping Cost
+                  </Grid>
+                  <Grid item xs={6}>
                     <Icon classes={{ root: classes.iconRoot }}>
                       <img alt="curency inr" src={rupeeSvgIcon} />
                     </Icon>
                     {cart.shippingPrice}
                   </Grid>
-                  <Grid item>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={6}>
                     Tax
+                  </Grid>
+                  <Grid item xs={6}>
                     <Icon classes={{ root: classes.iconRoot }}>
                       <img alt="curency inr" src={rupeeSvgIcon} />
                     </Icon>
                     {cart.taxPrice}
                   </Grid>
-                  <Grid item>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item xs={6}>
                     Total
+                  </Grid>
+                  <Grid item xs={6}>
                     <Icon classes={{ root: classes.iconRoot }}>
                       <img alt="curency inr" src={rupeeSvgIcon} />
                     </Icon>
                     {cart.totalPrice}
                   </Grid>
-                  <Grid item>
-                    {error && <Message variant="danger">{error}</Message>}
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      type="submit"
-                      color="primary"
-                      onClick={placeOrderHandler}
-                      disabled={cart.cartItems === 0}
-                    >
-                      Place Order
-                    </Button>
-                  </Grid>
                 </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                {error && <Message variant="danger">{error}</Message>}
+              </Grid>
+              <Grid item xs={12} align="center">
+                <Button
+                  size="small"
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  onClick={placeOrderHandler}
+                  disabled={cart.cartItems === 0}
+                  justify="center"
+                >
+                  Place Order
+                </Button>
               </Grid>
             </Grid>
             {/* </form> */}

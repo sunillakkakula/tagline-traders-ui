@@ -197,7 +197,7 @@ export default function MuiHeader({ location, history }) {
               size="small"
               variant="contained"
               style={{
-                color: "primary",
+                color: "green",
                 backgroundColor: "white",
                 height: "2rem",
                 margin: "0.5rem",
@@ -226,7 +226,7 @@ export default function MuiHeader({ location, history }) {
             </Link>
             {userInfo ? (
               <>
-                <Link
+                {/* <Link
                   to="/profile"
                   style={{
                     color: "white",
@@ -240,7 +240,7 @@ export default function MuiHeader({ location, history }) {
                   }}
                 >
                   {userInfo.name}
-                </Link>
+                </Link> */}
               </>
             ) : (
               <div>

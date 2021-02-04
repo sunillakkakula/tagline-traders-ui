@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     marginBottom: theme.spacing(1),
   },
+  childPaper: {
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    whiteSpace: "nowrap",
+    width: "100%",
+    marginBottom: theme.spacing(1),
+  },
   divider: {
     margin: theme.spacing(2, 0),
   },
@@ -63,6 +71,67 @@ export default function CartLayoutScreen({ match, location, history }) {
   const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
   };
+  const emptyCartContent = (
+    <Grid container spacing={1}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
+          <Message>
+            Your cart is empty <Link to="/">Supermarket</Link>
+          </Message>
+        </Paper>
+      </Grid>
+    </Grid>
+  );
+  const cartItemsConetnt = cartItems.map((item) => (
+    <Grid item xs={8}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={1} row>
+          <Grid item xs={3}>
+            <img
+              className="img-thumbnail"
+              src={item.image}
+              alt={item.name}
+              style={{
+                height: "3.5rem",
+                width: "3.5rem",
+              }}
+            />
+            {console.log("Image URL: " + item.image)}
+          </Grid>
+          <Grid item xs={2}>
+            <Link to={`/product/${item.product}`}>{item.name}</Link>
+          </Grid>
+          <Grid item xs={2}>
+            <img alt="curency inr" src={rupeeSvgIcon} /> {item.price}
+          </Grid>
+          <Grid xs={2}>
+            <Select
+              as="select"
+              value={item.qty}
+              defaultValue={1}
+              onChange={(e) =>
+                dispatch(addToCart(item.product, Number(e.target.value)))
+              }
+            >
+              {[...Array(item.countInStock).keys()].map((x) => (
+                <option key={x + 1} value={x + 1}>
+                  {x + 1}
+                </option>
+              ))}
+            </Select>
+          </Grid>
+          <Grid xs={3}>
+            <IconButton
+              aria-label="delete"
+              onClick={() => removeFromCartHandler(item.product)}
+            >
+              <DeleteOutline />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Grid>
+  ));
 
   return (
     <div>
@@ -83,62 +152,66 @@ export default function CartLayoutScreen({ match, location, history }) {
       </Typography>
 
       {cartItems.length === 0 ? (
-        <Grid container spacing={2}>
+        { emptyCartContent }
+      ) : (
+        <Grid container spacing={1}>
           <Grid item xs={8}>
-            <Paper className={classes.paper}>
-              <Message>
-                Your cart is empty <Link to="/">Supermarket</Link>
-              </Message>
+            <Paper className={classes.childPaper}>
+              {cartItems.map((item) => (
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <Grid container spacing={1} row>
+                      <Grid item xs={3}>
+                        <img
+                          className="img-thumbnail"
+                          src={item.image}
+                          alt={item.name}
+                          style={{
+                            height: "3.5rem",
+                            width: "3.5rem",
+                          }}
+                        />
+                        {console.log("Image URL: " + item.image)}
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Link to={`/product/${item.product}`}>{item.name}</Link>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <img alt="curency inr" src={rupeeSvgIcon} />{" "}
+                        {item.price}
+                      </Grid>
+                      <Grid xs={2}>
+                        <Select
+                          as="select"
+                          value={item.qty}
+                          defaultValue={1}
+                          onChange={(e) =>
+                            dispatch(
+                              addToCart(item.product, Number(e.target.value))
+                            )
+                          }
+                        >
+                          {[...Array(item.countInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Select>
+                      </Grid>
+                      <Grid xs={3}>
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => removeFromCartHandler(item.product)}
+                        >
+                          <DeleteOutline />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+              ))}
             </Paper>
           </Grid>
-        </Grid>
-      ) : (
-        <Grid container spacing={2}>
-          {cartItems.map((item) => (
-            <Grid item xs={8}>
-              <Paper className={classes.paper}>
-                <Grid container spacing={1} data-aos="fade-up" row>
-                  <Grid item xs={3}>
-                    <Image src={item.image} alt={item.name} />
-                    {console.log("Image URL: " + item.image)}
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </Grid>
-                  <Grid item xs={2}>
-                    {item.price}
-                  </Grid>
-                  <Grid xs={2}>
-                    <Select
-                      as="select"
-                      value={item.qty}
-                      defaultValue={1}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Select>
-                  </Grid>
-                  <Grid xs={3}>
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => removeFromCartHandler(item.product)}
-                    >
-                      <DeleteOutline />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-          ))}
-
           <Grid item xs={4}>
             <Paper className={classes.paper}>
               <Grid container spacing={1} data-aos="fade-up">
