@@ -12,8 +12,7 @@ import {
   RadioGroup,
   Button,
 } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-// import Button from "../components/controls/Button";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +67,6 @@ const PaymentScreen = ({ history }) => {
                     style={{
                       color: "white",
                       backgroundColor: "#26A541",
-                      // marginLeft: "10rem",
                     }}
                     className="btn"
                     align="right"

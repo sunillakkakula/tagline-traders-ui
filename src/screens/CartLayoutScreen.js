@@ -82,90 +82,101 @@ export default function CartLayoutScreen({ match, location, history }) {
         </Link>
       </Typography>
 
-      <Grid container spacing={2} data-aos="fade-up">
-        {cartItems.map((item) => (
+      {cartItems.length === 0 ? (
+        <Grid container spacing={2}>
           <Grid item xs={8}>
             <Paper className={classes.paper}>
-              <Grid container spacing={1} data-aos="fade-up" row>
-                <Grid item xs={3}>
-                  <Image src={item.image} alt={item.name} />
-                  {console.log("Image URL: " + item.image)}
+              <Message>
+                Your cart is empty <Link to="/">Supermarket</Link>
+              </Message>
+            </Paper>
+          </Grid>
+        </Grid>
+      ) : (
+        <Grid container spacing={2}>
+          {cartItems.map((item) => (
+            <Grid item xs={8}>
+              <Paper className={classes.paper}>
+                <Grid container spacing={1} data-aos="fade-up" row>
+                  <Grid item xs={3}>
+                    <Image src={item.image} alt={item.name} />
+                    {console.log("Image URL: " + item.image)}
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                  </Grid>
+                  <Grid item xs={2}>
+                    {item.price}
+                  </Grid>
+                  <Grid xs={2}>
+                    <Select
+                      as="select"
+                      value={item.qty}
+                      defaultValue={1}
+                      onChange={(e) =>
+                        dispatch(
+                          addToCart(item.product, Number(e.target.value))
+                        )
+                      }
+                    >
+                      {[...Array(item.countInStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </Select>
+                  </Grid>
+                  <Grid xs={3}>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => removeFromCartHandler(item.product)}
+                    >
+                      <DeleteOutline />
+                    </IconButton>
+                  </Grid>
                 </Grid>
-                <Grid item xs={2}>
-                  <Link to={`/product/${item.product}`}>{item.name}</Link>
-                </Grid>
-                <Grid item xs={2}>
-                  {item.price}
-                </Grid>
-                <Grid xs={2}>
-                  <Select
-                    as="select"
-                    value={item.qty}
-                    defaultValue={1}
-                    onChange={(e) =>
-                      dispatch(addToCart(item.product, Number(e.target.value)))
-                    }
+              </Paper>
+            </Grid>
+          ))}
+
+          <Grid item xs={4}>
+            <Paper className={classes.paper}>
+              <Grid container spacing={1} data-aos="fade-up">
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h6"
+                    color="primary"
+                    align={isMd ? "left" : "center"}
                   >
-                    {[...Array(item.countInStock).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </Select>
+                    Subtotal (
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}) items
+                  </Typography>
                 </Grid>
-                <Grid xs={2}>
-                  {/* <Button onClick={() => removeFromCartHandler(item.product)}>
-                    <i className="fas fa-trash"></i>
-                  </Button> */}
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => removeFromCartHandler(item.product)}
+                <Grid item xs={12}>
+                  <Icon classes={{ root: classes.iconRoot }}>
+                    <img alt="curency inr" src={rupeeSvgIcon} />
+                  </Icon>
+                  {cartItems
+                    .reduce((acc, item) => acc + item.qty * item.price, 0)
+                    .toFixed(2)}
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    disabled={cartItems.length === 0}
+                    size="small"
+                    variant="contained"
+                    type="submit"
+                    color="primary"
+                    onClick={checkoutHandler}
                   >
-                    <DeleteOutline />
-                  </IconButton>
+                    Proceed To Checkout
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
-        ))}
-
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>
-            <Grid container spacing={1} data-aos="fade-up">
-              <Grid item xs={12}>
-                <Typography
-                  variant="h6"
-                  color="primary"
-                  align={isMd ? "left" : "center"}
-                >
-                  Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
-                  ) items
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Icon classes={{ root: classes.iconRoot }}>
-                  <img alt="curency inr" src={rupeeSvgIcon} />
-                </Icon>
-                {cartItems
-                  .reduce((acc, item) => acc + item.qty * item.price, 0)
-                  .toFixed(2)}
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  disabled={cartItems.length === 0}
-                  size="small"
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  onClick={checkoutHandler}
-                >
-                  Proceed To Checkout
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper>
         </Grid>
-      </Grid>
+      )}
     </div>
   );
 }

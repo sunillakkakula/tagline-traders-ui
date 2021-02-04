@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Spinner from "../components/controls/Spinner";
 import { login } from "../actions/userAction";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Grid, Button, TextField } from "@material-ui/core";
+import { Typography, Grid, Button, TextField, Paper } from "@material-ui/core";
 import validate from "validate.js";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    flexGrow: 1,
+  },
+  paper: {
+    height: "30vh",
+    width: "50vh",
+  },
+  inputText: {
+    margin: "auto",
+    padding: "1rem",
+    alignContent: "center",
+  },
+  customBtnStyle: {
+    margin: "auto",
+    padding: "1rem",
+    alignContent: "center",
   },
 }));
 
@@ -101,6 +114,7 @@ const LoginScreen = ({ location, history }) => {
       },
     }));
   };
+  
   const hasError = (field) =>
     formState.touched[field] && formState.errors[field] ? true : false;
 
@@ -108,82 +122,87 @@ const LoginScreen = ({ location, history }) => {
     <>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Spinner />}
-      <div className={classes.root}>
-        <form method="post" onSubmit={submitHandler}>
-          <Grid container spacing={2} align="center">
-            <Grid item xs={12}>
-              <TextField
-                placeholder="E-mail"
-                label="E-mail *"
-                variant="outlined"
-                size="small"
-                name="email"
-                helperText={
-                  hasError("email") ? formState.errors.email[0] : null
-                }
-                error={hasError("email")}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                // value={formState.values.email || ""}
-                value={email}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                placeholder="Password"
-                label="Password*"
-                variant="outlined"
-                size="small"
-                name="password"
-                helperText={
-                  hasError("password") ? formState.errors.password[0] : null
-                }
-                error={hasError("password")}
-                // onChange={handleChange}
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-                value={password}
-                // value={formState.values.password || ""}
-              />
-            </Grid>
 
-            <Grid item xs={12}>
-              <i>
-                <Typography variant="subtitle2">
-                  Fields that are marked with * sign are required.
-                </Typography>
-              </i>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                size="small"
-                variant="contained"
-                type="submit"
-                color="primary"
-              >
-                Sign In
-              </Button>
-              <Button
-                size="small"
-                variant="contained"
-                type="submit"
-                color="primary"
-              >
-                Sign Up
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                align="center"
-              >
-                Remember your password?{" "}
-              </Typography>
+      <Grid container className={classes.root} spacing={2} justify="center">
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={1}>
+            <Grid item>
+              <form onSubmit={submitHandler}>
+                <Paper className={classes.paper}>
+                  <Grid item xs={12}>
+                    <TextField
+                      className={classes.inputText}
+                      align="center"
+                      placeholder="E-mail"
+                      label="E-mail *"
+                      variant="outlined"
+                      size="small"
+                      name="email"
+                      fullWidth
+                      helperText={
+                        hasError("email") ? formState.errors.email[0] : null
+                      }
+                      error={hasError("email")}
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      value={email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      className={classes.inputText}
+                      placeholder="Password"
+                      label="Password*"
+                      variant="outlined"
+                      size="small"
+                      name="password"
+                      fullWidth
+                      helperText={
+                        hasError("password")
+                          ? formState.errors.password[0]
+                          : null
+                      }
+                      error={hasError("password")}
+                      onChange={(e) => setPassword(e.target.value)}
+                      type="password"
+                      value={password}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Grid container>
+                      <Grid item xs={12}>
+                        <Button
+                          fullWidth
+                          className={classes.customBtnStyle}
+                          size="small"
+                          variant="contained"
+                          type="submit"
+                          color="primary"
+                        >
+                          Sign In
+                        </Button>
+                      </Grid>
+                      <Grid item xs={12} style={{ alignContent: "center" }}>
+                        New Customer?{" "}
+                        <Link
+                          to={
+                            redirect
+                              ? `/register?redirect=${redirect}`
+                              : "/register"
+                          }
+                        >
+                          Register
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </form>
             </Grid>
           </Grid>
-        </form>
-      </div>
+        </Grid>
+      </Grid>
     </>
   );
 };

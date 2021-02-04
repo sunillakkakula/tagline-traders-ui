@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -9,36 +9,23 @@ import {
   DialogTitle,
   Icon,
   MenuItem,
-  Paper,
   Select,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/styles";
-import AddProductForm from "./AddProductForm";
-import OrderTypeDialog from "../components/OrderTypeDialog";
+
 import {
-  useMediaQuery,
   Grid,
   Card,
   CardMedia,
   CardContent,
   Typography,
 } from "@material-ui/core";
-import Image from "../components/atoms/Image/Image";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import CloseIcon from "@material-ui/icons/Close";
-import Popup from "./Popup";
-// import  from "../screens/ProductScreen";
-import ProductDetailsScreen from "../screens/ProductDetailsScreen";
+import Image from "./atoms/Image/Image";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import BulkLooseRadioGroup from "./controls/BulkLooseRadioGroup";
 
 const Product = ({ history, match, product }) => {
-  const [openPopup, setOpenPopup] = useState(false);
   const [qty, setQty] = useState(1);
-  const theme = useTheme();
-  const [counter, setCounter] = useState(1);
-
-  // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("md");
   const useStyles = makeStyles((theme) => ({
@@ -75,12 +62,13 @@ const Product = ({ history, match, product }) => {
   let [orderTypeSelected, setOrderTypeSelected] = useState("loose");
   let [orderType, setOrderType] = useState("loose");
   let [orderTypeResultUI, setOrderTypeResultUI] = useState("");
+
   const handleIncrement = () => {
-    setCounter(counter + 1);
+    setQty(qty + 1);
   };
 
   const handleDecrement = () => {
-    setCounter(counter - 1);
+    setQty(qty - 1);
   };
   const bulkUI = (
     <Select value={qty} onChange={(e) => setQty(e.target.value)}>
@@ -98,63 +86,18 @@ const Product = ({ history, match, product }) => {
       aria-label="small outlined button group"
     >
       {<Button onClick={handleDecrement}>-</Button>}
-      {<Button disabled>{counter}</Button>}
+      {<Button disabled>{qty}</Button>}
       <Button onClick={handleIncrement}>+</Button>
     </ButtonGroup>
   );
 
-  const renderQtyUI = ({ orderType }) => {
-    console.log(
-      "Exec renderQtyUI ... : orderType :--> " +
-        orderType +
-        " , orderTypeSelected :==> " +
-        orderTypeSelected
-    );
-    if (orderTypeSelected.startsWith("b")) {
-      console.log(" IS BULK ORDER so return UI for that" + orderTypeSelected);
-
-      return;
-      <Select value={qty} onChange={(e) => setQty(e.target.value)}>
-        {[...Array(product.countInStock).keys()].map((x) => (
-          <MenuItem key={x + 1} value={x + 1}>
-            {x + 1}
-          </MenuItem>
-        ))}
-      </Select>;
-    } else {
-      console.log(" IS LOOSE ORDER so return UI for that" + orderTypeSelected);
-      return (
-        <ButtonGroup
-          style={{ size: "small" }}
-          className="small outlined button group"
-          aria-label="small outlined button group"
-        >
-          {<Button onClick={handleDecrement}>-</Button>}
-          {<Button disabled>{counter}</Button>}
-          <Button onClick={handleIncrement}>+</Button>
-        </ButtonGroup>
-      );
-    }
-  };
-  useEffect(() => {
-    console.log("Exec Use Effect as order Type is Chnaged from Product Screen");
-    // setOrderTypeSelected(orderTypeSelected);
-    // setOrderTypeResultUI(renderQtyUI(orderTypeSelected));
-  }, [orderTypeSelected, orderTypeResultUI]);
-
   const addToCartHandler = () => {
-    history.push(`/cart/${product._id}?qty=${product.qty}`);
+    handleClose();
   };
 
   const currentCBHandler = (orderTypeValue) => {
     orderTypeSelected = orderTypeValue;
     setOrderTypeSelected(...orderTypeSelected, orderTypeSelected);
-    console.log(
-      "orderTypeValue :" +
-        orderTypeValue +
-        " orderTypeSelected : " +
-        orderTypeSelected
-    );
 
     setOrderType(orderTypeValue);
     console.log(
@@ -168,6 +111,7 @@ const Product = ({ history, match, product }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Card>
@@ -284,7 +228,6 @@ const Product = ({ history, match, product }) => {
                     <BulkLooseRadioGroup parentCB={currentCBHandler} />
                   </Grid>
                   <Grid item xs={6}>
-                    {/* {} {orderTypeResultUI} */}
                     {console.log(
                       "orderTypeSelected BEFORE RENDERING: " + orderTypeSelected
                     )}
@@ -295,14 +238,13 @@ const Product = ({ history, match, product }) => {
                     )}
                   </Grid>
                 </Grid>
-                {/* <BulkLooseRadioGroup parentCB={currentCBHandler} /> */}
               </Grid>
             </Grid>
           </DialogContent>
           <DialogActions>
             <Button
               autoFocus
-              onClick={handleClose}
+              onClick={addToCartHandler}
               size="small"
               variant="contained"
               type="submit"

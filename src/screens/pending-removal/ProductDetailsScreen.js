@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Rating from "../components/Rating";
-import BulkLooseRadioGroup from "../components/controls/BulkLooseRadioGroup";
+import Rating from "../../components/Rating";
+import BulkLooseRadioGroup from "../../components/controls/BulkLooseRadioGroup";
 
-import { RupeeIcon } from "../components/controls/RupeeIcon";
+import { RupeeIcon } from "../../components/controls/RupeeIcon";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
   Button,
@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import Image from "../components/atoms/Image/Image";
+import Image from "../../components/atoms/Image/Image";
 
 const useStyles = makeStyles((theme) => ({
   root: {

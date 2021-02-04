@@ -42,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
+    loginBtn: {
+      color: "#2874f0",
+      fontWeight: "500",
+      backgroundColor: "#fff",
+      cursor: "pointer",
+      borderRadius: "2px",
+      height: "32px",
+      padding: "5px 40px",
+      border: "1px solid #dbdbdb",
+    },
   },
 }));
 function ElevationScroll(props) {
@@ -92,25 +102,11 @@ export default function Header({ props }) {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  const [loginModal, setLoginModal] = useState(false);
-  const [signup, setSignup] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const logoutHandler = () => {
     dispatch(logout());
-  };
-  const renderLoggedInMenu = () => {
-    return <h3>LoggedIn</h3>;
-  };
-
-  const renderNonLoggedInMenu = () => {
-    return (
-      <h3>
-        return <h3>NOT LoggedIn</h3>;
-      </h3>
-    );
   };
 
   return (
@@ -149,9 +145,6 @@ export default function Header({ props }) {
               </Grid>
               <Grid item xs={3}>
                 {" "}
-                <Link to="/cart">
-                  <ShoppingCartIcon count="10" />
-                </Link>
               </Grid>
               <Grid item xs={3}>
                 {userInfo ? (
@@ -169,15 +162,7 @@ export default function Header({ props }) {
                     </Link>
                   </>
                 ) : (
-                  <div
-                  // style={{
-                  //   marginLeft: "3em",
-                  //   display: "flex",
-                  //   alignItems: "right",
-                  //   cursor: "pointer",
-                  //   paddingRight: "0px",
-                  // }}
-                  >
+                  <div>
                     <Link to="/login">
                       <i className="fas fa-user" />
                     </Link>
@@ -191,7 +176,7 @@ export default function Header({ props }) {
                 </Link>
               </Grid>
             </Grid>
-            {/* <div style={{ marginLeft: "5em" }}>
+            <div style={{ marginLeft: "5em" }}>
               <ZipCodeTracker />
             </div>
             <Link to="/cart">
@@ -209,20 +194,10 @@ export default function Header({ props }) {
                 </Link>
               </>
             ) : (
-              <div
-                style={{
-                  marginLeft: "3em",
-                  display: "flex",
-                  alignItems: "right",
-                  cursor: "pointer",
-                  paddingRight: "0px",
-                }}
-              >
-                <Link to="/login">
-                  <i className="fas fa-user" />
-                </Link>
-              </div>
-            )} */}
+              <Link to="/login">
+                <i className="fas fa-user" />
+              </Link>
+            )}
           </Toolbar>
         </AppBar>
       </ElevationScroll>

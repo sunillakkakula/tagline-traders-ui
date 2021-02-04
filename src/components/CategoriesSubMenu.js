@@ -63,7 +63,7 @@ export default class CategoriesSubMenu extends Component {
                 <li className="has-submenu">
                   <a className="dropdown-item dropdown-toggle" href="#">
                     {" "}
-                    Dropdown item 3{" "}
+                    Gheel & Oils
                   </a>
                   <div className="megasubmenu dropdown-menu">
                     <div className="row">
@@ -74,7 +74,7 @@ export default class CategoriesSubMenu extends Component {
                 <li className="has-submenu">
                   <a className="dropdown-item dropdown-toggle" href="#">
                     {" "}
-                    Dropdown item 3{" "}
+                    Atta & Flours
                   </a>
                   <div className="megasubmenu dropdown-menu">
                     <div className="row">
@@ -85,12 +85,12 @@ export default class CategoriesSubMenu extends Component {
                 <li className="has-submenu">
                   <a className="dropdown-item dropdown-toggle" href="#">
                     {" "}
-                    Dropdown item 4{" "}
+                    Masala & Spices
                   </a>
                   <div className="megasubmenu dropdown-menu">
                     <div className="row">
                       <div className="col-12">
-                        <h6 className="title">Title Menu One</h6>
+                        {/* <h6 className="title">Title Menu One</h6> */}
                         <ul className="list-unstyled">
                           <li>
                             <a href="#">Custom Menu 4 - 1</a>
@@ -106,7 +106,45 @@ export default class CategoriesSubMenu extends Component {
                 <li className="has-submenu">
                   <a className="dropdown-item dropdown-toggle" href="#">
                     {" "}
-                    Dropdown item 4{" "}
+                    Rice & Rice Products
+                  </a>
+                  <div className="megasubmenu dropdown-menu">
+                    <div className="row">
+                      <div className="col-12">
+                        <ul className="list-unstyled">
+                          <li>
+                            <a href="#">Custom Menu 4 - 1</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                          <li>
+                            <a href="#">Custom Menu 4 - 2</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li className="has-submenu">
+                  <a className="dropdown-item dropdown-toggle" href="#">
+                    {" "}
+                    Dry Fruits Nuts & Seeds
                   </a>
                   <div className="megasubmenu dropdown-menu">
                     <div className="row">

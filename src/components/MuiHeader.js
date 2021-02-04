@@ -1,15 +1,13 @@
-import React from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -17,7 +15,10 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ZipCodeTracker from "./ZipCodeTracker";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import logo from "../assets/images/logo.jpg";
-import { Button, Link } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import LoginScreen from "../screens/LoginScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userAction";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -28,10 +29,19 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: "none",
+    fontSize: "20px",
+    fontFamily: "Roboto",
+    fontWeight: "500",
+    fontStyle: "italic",
+
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
   },
+  appTitle: {
+    fontSize: "1.75rem",
+  },
+
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -44,15 +54,30 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  loginBtn: {
+    color: "#2874f0",
+    fontWeight: "500",
+    backgroundColor: "#fff",
+    cursor: "pointer",
+    borderRadius: "2px",
+    height: "32px",
+    padding: "5px 40px",
+    border: "1px solid #dbdbdb",
+  },
 }));
-
 export default function MuiHeader({ location, history }) {
   // const history = { props };
-
+  let [alreadyLoggedIn, setAlreadyLoggedIn] = useState("false");
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -101,6 +126,9 @@ export default function MuiHeader({ location, history }) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
+        <Button color="primary">login!</Button>
+      </MenuItem>
+      <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -129,19 +157,15 @@ export default function MuiHeader({ location, history }) {
       </MenuItem>
     </Menu>
   );
-
+  alreadyLoggedIn = userInfo !== null ? true : false;
+  console.log("alreadyLoggedIn : " + alreadyLoggedIn);
+  let loginBtnTitle = alreadyLoggedIn !== true ? "login" : "logout";
+  let loginBtnUrl = alreadyLoggedIn !== true ? "/login" : "/logout";
+  console.log("loginBtnTitle : " + loginBtnTitle);
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton> */}
           <div>
             <img
               className="img-thumbnail"
@@ -162,32 +186,79 @@ export default function MuiHeader({ location, history }) {
           >
             Tagline Traders
           </Typography>
-          {/* <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-          </div> */}
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton> */}
             <ZipCodeTracker />
-            {/* <div>
-              <Link to="/cart">
-                <ShoppingCartIcon />
-              </Link>
-            </div> */}
+            <Button
+              component={Link}
+              className={classes.loginBtn}
+              to={loginBtnUrl}
+              size="small"
+              variant="contained"
+              style={{
+                color: "primary",
+                backgroundColor: "white",
+                height: "2rem",
+                margin: "0.5rem",
+                alignContent: "center",
+                verticalAlign: "baseline",
+              }}
+            >
+              {loginBtnTitle}
+            </Button>
+            <Link
+              // component={Link}
+              className={classes.loginBtn}
+              to={"/login"}
+              size="small"
+              variant="contained"
+              style={{
+                color: "green",
+                backgroundColor: "white",
+                height: "2rem",
+                margin: "0.5rem",
+                alignContent: "center",
+                verticalAlign: "baseline",
+              }}
+            >
+              More
+            </Link>
+            {userInfo ? (
+              <>
+                <Link
+                  to="/profile"
+                  style={{
+                    color: "white",
+                    // backgroundColor: "white",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    height: "2rem",
+                    margin: "0.5rem",
+                    alignContent: "center",
+                    verticalAlign: "baseline",
+                  }}
+                >
+                  {userInfo.name}
+                </Link>
+              </>
+            ) : (
+              <div>
+                <Link to="/login">
+                  <i className="fas fa-user" />
+                </Link>
+              </div>
+            )}
             <Button component={Link} to={"/cart"}>
-              Cart
-              <ShoppingCartIcon count="10" />
+              <ShoppingCartIcon count="10" style={{ color: "white" }} />
             </Button>
             <IconButton
               color="primary"
               aria-label="upload picture"
-              component="span" onClick={(e)=>{e.preventDefault();}}
+              component="span"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
             >
               <ShoppingCartIcon />
             </IconButton>

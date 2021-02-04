@@ -23,6 +23,7 @@ import OrderListScreen from "./screens/OrderListScreen";
 // import SubMenuHeader from "./components/SubMenuHeader";
 import DashboardScreen from "./screens/DashboardScreen";
 import MuiHeader from "./components/MuiHeader";
+import CategoriesSubMenuVer2 from "./components/CategoriesSubMenuVer2";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -31,9 +32,10 @@ function App() {
             AND COMMENT THE BELOW LIKE AFTER MAKING CHANGES  -KSP
         */}
         {/* <CategoriesSubMenu /> */}
+        {/* <MuiHeader /> */}
         <MuiHeader />
         {/* <SubMenuHeader /> */}
-        <CategoriesSubMenu />
+        <CategoriesSubMenuVer2 />
         <main className="py-3">
           <Container>
             <Route path="/order/:id" component={OrderScreen} />
