@@ -197,7 +197,7 @@ export default function MuiHeader({ location, history }) {
             noWrap
             style={{ color: "white" }}
           >
-            Tagline Traders
+            Tagline Traders Groceries
           </Typography>
 
           <div className={classes.grow} />
@@ -222,14 +222,14 @@ export default function MuiHeader({ location, history }) {
               {loginBtnTitle}
             </Button>
             <MorePopper
-              // style={{
-              //   color: "green",
-              //   backgroundColor: "white",
-              //   height: "2rem",
-              //   margin: "0.5rem",
-              //   alignContent: "center",
-              //   verticalAlign: "baseline",
-              // }}
+            // style={{
+            //   color: "green",
+            //   backgroundColor: "white",
+            //   height: "2rem",
+            //   margin: "0.5rem",
+            //   alignContent: "center",
+            //   verticalAlign: "baseline",
+            // }}
             />
             {/* <Tippy content={<MoreTippy />} interactive={true}>
               <Button>More</Button>

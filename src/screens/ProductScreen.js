@@ -21,7 +21,7 @@ import {
 } from "@material-ui/core";
 import rupeeSvgIcon from "../assets/images/currency-inr.svg";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/products/Cashews.jpg";
+import logo from "../assets/images/currency-inr.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
