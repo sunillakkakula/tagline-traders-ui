@@ -19,7 +19,9 @@ import { Link } from "react-router-dom";
 import LoginScreen from "../screens/LoginScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userAction";
-
+import Tippy from "@tippyjs/react";
+import MoreTippy from "../screens/MoreTippy";
+import MorePopper from "./MorePopper";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -159,9 +161,20 @@ export default function MuiHeader({ location, history }) {
   );
   alreadyLoggedIn = userInfo !== null ? true : false;
   console.log("alreadyLoggedIn : " + alreadyLoggedIn);
-  let loginBtnTitle = alreadyLoggedIn !== true ? "login" : "logout";
-  let loginBtnUrl = alreadyLoggedIn !== true ? "/login" : "/logout";
+  let loginBtnTitle = alreadyLoggedIn === true ? "logout" : "login";
+  let loginBtnUrl = alreadyLoggedIn === true ? "/logout" : "/login";
   console.log("loginBtnTitle : " + loginBtnTitle);
+  const loggedInContent = (
+    <div onClick={logoutHandler} style={{ marginLeft: "1.5em" }}>
+      <Link to="/logout">Click Logout</Link>
+    </div>
+  );
+  const loggedOutContent = (
+    <div>
+      <Link to="/login">Logout</Link>
+    </div>
+  );
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -190,6 +203,7 @@ export default function MuiHeader({ location, history }) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <ZipCodeTracker />
+            {/* {alreadyLoggedIn === "true" ? loggedInContent : loggedOutContent} */}
             <Button
               component={Link}
               className={classes.loginBtn}
@@ -207,8 +221,20 @@ export default function MuiHeader({ location, history }) {
             >
               {loginBtnTitle}
             </Button>
-            <Link
-              // component={Link}
+            <MorePopper
+              // style={{
+              //   color: "green",
+              //   backgroundColor: "white",
+              //   height: "2rem",
+              //   margin: "0.5rem",
+              //   alignContent: "center",
+              //   verticalAlign: "baseline",
+              // }}
+            />
+            {/* <Tippy content={<MoreTippy />} interactive={true}>
+              <Button>More</Button>
+            </Tippy> */}
+            {/* <Link
               className={classes.loginBtn}
               to={"/login"}
               size="small"
@@ -223,8 +249,8 @@ export default function MuiHeader({ location, history }) {
               }}
             >
               More
-            </Link>
-            {userInfo ? (
+            </Link> */}
+            {/* {userInfo ? (
               <>
                 {/* <Link
                   to="/profile"
@@ -240,7 +266,7 @@ export default function MuiHeader({ location, history }) {
                   }}
                 >
                   {userInfo.name}
-                </Link> */}
+                </Link> }
               </>
             ) : (
               <div>
@@ -248,12 +274,10 @@ export default function MuiHeader({ location, history }) {
                   <i className="fas fa-user" />
                 </Link>
               </div>
-            )}
-            <Button component={Link} to={"/cart"}>
-              <ShoppingCartIcon count="10" style={{ color: "white" }} />
-            </Button>
+            )} */}
+
             <IconButton
-              color="primary"
+              style={{ color: "white" }}
               aria-label="upload picture"
               component="span"
               onClick={(e) => {

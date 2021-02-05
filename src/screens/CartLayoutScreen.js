@@ -72,15 +72,17 @@ export default function CartLayoutScreen({ match, location, history }) {
     history.push("/login?redirect=shipping");
   };
   const emptyCartContent = (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <Message>
-            Your cart is empty <Link to="/">Supermarket</Link>
-          </Message>
-        </Paper>
+    <>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Message>
+              Your cart is empty <Link to="/">Supermarket</Link>
+            </Message>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
   const cartItemsConetnt = cartItems.map((item) => (
     <Grid item xs={8}>
@@ -152,7 +154,7 @@ export default function CartLayoutScreen({ match, location, history }) {
       </Typography>
 
       {cartItems.length === 0 ? (
-        { emptyCartContent }
+        <div>Empty CArt</div>
       ) : (
         <Grid container spacing={1}>
           <Grid item xs={8}>

@@ -4,7 +4,6 @@ import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import "../assets/css/MoreTippy.css";
-import { Divider } from "@material-ui/core";
 
 const MoreTippy = () => {
   return (
