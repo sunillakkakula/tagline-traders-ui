@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   ButtonGroup,
@@ -26,6 +26,7 @@ import BulkLooseRadioGroup from "./controls/BulkLooseRadioGroup";
 
 const Product = ({ history, match, product }) => {
   const [qty, setQty] = useState(1);
+  history = useHistory();
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("md");
   const useStyles = makeStyles((theme) => ({
@@ -61,7 +62,6 @@ const Product = ({ history, match, product }) => {
   const [open, setOpen] = React.useState(false);
   let [orderTypeSelected, setOrderTypeSelected] = useState("loose");
   let [orderType, setOrderType] = useState("loose");
-  let [orderTypeResultUI, setOrderTypeResultUI] = useState("");
 
   const handleIncrement = () => {
     setQty(qty + 1);
@@ -93,6 +93,7 @@ const Product = ({ history, match, product }) => {
 
   const addToCartHandler = () => {
     handleClose();
+    history.push(`/cart/${product._id}?qty=${qty}`);
   };
 
   const currentCBHandler = (orderTypeValue) => {
