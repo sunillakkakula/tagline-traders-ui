@@ -197,7 +197,7 @@ export default function MuiHeader({ location, history }) {
             noWrap
             style={{ color: "white" }}
           >
-            Tagline Traders
+            Tagline Traders Groceries
           </Typography>
 
           <div className={classes.grow} />

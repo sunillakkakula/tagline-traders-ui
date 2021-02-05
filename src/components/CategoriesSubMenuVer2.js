@@ -3,6 +3,7 @@ import "../assets/css/MegaMenu.css";
 import $ from "jquery";
 import categoriesMenu from "./categoriesMenuData";
 import { Link } from "react-router-dom";
+import logo from "../assets/images/logo.jpg";
 window.jQuery = $;
 export default class CategoriesSubMenuVer2 extends Component {
   componentDidMount() {
@@ -25,20 +26,24 @@ export default class CategoriesSubMenuVer2 extends Component {
   }
 
   render() {
-    // const items = [
-    //   "Staples",
-    //   "Snacks & Beverages",
-    //   "Packaged Food",
-    //   "Personal & Body Care",
-    //   "Household & Baby Care",
-    //   "Dairy & Eggs",
-    // ];
     return (
       <nav className="navbar navbar-expand-lg">
         <ul className="navbar-nav">
           {categoriesMenu.map((rootCategoryItem) => {
             return (
               <li className="nav-item dropdown">
+                <div>
+                  <img
+                    className="img-thumbnail"
+                    alt="Staples"
+                    src={logo}
+                    style={{
+                      height: "3.5rem",
+                      width: "3.5rem",
+                      marginRight: "5em",
+                    }}
+                  />
+                </div>
                 <Link
                   className="nav-link dropdown-toggle"
                   to="#"
